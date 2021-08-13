@@ -41,8 +41,42 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+const tablHead = [" Name", "Address", "Price", "Code", "Year", "Owner"];
+var tblData = [];
+
+const fetchProp = async () => {
+  const response = await fetch(
+    "http://localhost:6288/api/property/getProperties"
+  );
+  const data = await response.json();
+
+  return data;
+};
+
+fetchProp().then((res) => {
+  console.log(res);
+
+  if (res.status == 200 && res.title == "") {
+    for (var data in res.result) {
+      const dArray = [
+        res.result[data].name,
+        res.result[data].address,
+        res.result[data].price + "",
+        res.result[data].internalCode,
+        res.result[data].year + "",
+        res.result[data].owner.name,
+      ];
+
+      tblData[data] = dArray;
+    }
+  }
+
+  // console.log(tblData);
+});
+
 export default function TableList() {
   const classes = useStyles();
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -56,33 +90,8 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={[" Name", "Address", "Price", "Code", "Year", "Owner"]}
-              tableData={[
-                [
-                  "Palm beach mansions",
-                  "Street 1",
-                  "$36,738",
-                  "INTER123",
-                  "2000",
-                  "Paul G.",
-                ],
-                [
-                  "Boca Raton mansions",
-                  "Street 6",
-                  "$23,789",
-                  "INTER123",
-                  "1986",
-                  "Robert Smith",
-                ],
-                [
-                  "Sage Rodriguez",
-                  "Street 125",
-                  "$56,142",
-                  "INTER123",
-                  "2021",
-                  "Man Power",
-                ],
-              ]}
+              tableHead={tablHead}
+              tableData={tblData}
             />
           </CardBody>
         </Card>
