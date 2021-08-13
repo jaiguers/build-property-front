@@ -47,7 +47,7 @@ const dashboardRoutes = [
   },
   {
     path: "/table",
-    name: "Propiedad",
+    name: "Propiedades",
     rtlName: "قائمة الجدول",
     icon: "apartment",
     component: TableList,
